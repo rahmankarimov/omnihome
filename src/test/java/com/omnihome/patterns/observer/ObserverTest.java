@@ -24,7 +24,8 @@ public class ObserverTest {
         String output = outContent.toString();
         assertTrue(output.contains("Motion detected!"));
         assertTrue(output.contains("SmartLights: Motion detected! Turning lights on..."));
-        assertTrue(output.contains("SmartAlarm: Motion detected! Triggering alarm..."));
+        assertTrue(output.contains("SmartAlarm: Motion detected!"));
+        assertTrue(output.contains("Triggering default alarm..."));
 
         System.setOut(System.out);
     }
