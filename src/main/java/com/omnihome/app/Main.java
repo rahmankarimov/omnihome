@@ -5,6 +5,9 @@ import com.omnihome.patterns.adapter.GlorbThermostat;
 import com.omnihome.patterns.builder.AutomationRoutine;
 import com.omnihome.patterns.builder.RoutineBuilder;
 import com.omnihome.patterns.factory.*;
+import com.omnihome.patterns.observer.MotionSensor;
+import com.omnihome.patterns.observer.SmartAlarm;
+import com.omnihome.patterns.observer.SmartLights;
 import com.omnihome.patterns.prototype.DeviceConfiguration;
 import com.omnihome.patterns.singleton.CloudConnection;
 
@@ -53,6 +56,17 @@ public class Main {
         System.out.println("Master IP: " + masterConfig.getIpAddress());
         System.out.println("New IP: " + secondaryConfig.getIpAddress());
         System.out.println("Firmware: " + secondaryConfig.getFirmwareVersion());
+
+        System.out.println("Setting up security system");
+        MotionSensor motionSensor = new MotionSensor();
+        SmartLights lights = new SmartLights();
+        SmartAlarm alarm = new SmartAlarm();
+
+        motionSensor.addObserver(lights);
+        motionSensor.addObserver(alarm);
+
+        System.out.println("Testing security system");
+        motionSensor.detectMotion();
 
         System.out.println("Simulation finished");
     }
