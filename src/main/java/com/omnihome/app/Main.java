@@ -10,6 +10,9 @@ import com.omnihome.patterns.observer.SmartAlarm;
 import com.omnihome.patterns.observer.SmartLights;
 import com.omnihome.patterns.prototype.DeviceConfiguration;
 import com.omnihome.patterns.singleton.CloudConnection;
+import com.omnihome.patterns.observer.*;
+import com.omnihome.patterns.strategy.*;
+import com.omnihome.patterns.command.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -57,16 +60,38 @@ public class Main {
         System.out.println("New IP: " + secondaryConfig.getIpAddress());
         System.out.println("Firmware: " + secondaryConfig.getFirmwareVersion());
 
-        System.out.println("Setting up security system");
+        System.out.println("Setting up security system with strategies");
         MotionSensor motionSensor = new MotionSensor();
         SmartLights lights = new SmartLights();
         SmartAlarm alarm = new SmartAlarm();
 
+        alarm.registerStrategy("SILENT", new SilentPushStrategy());
+        alarm.registerStrategy("SIREN", new LoudSirenStrategy());
+
+        alarm.setStrategy("SILENT");
+
         motionSensor.addObserver(lights);
         motionSensor.addObserver(alarm);
 
-        System.out.println("Testing security system");
+        System.out.println("Testing security system - SILENT mode");
         motionSensor.detectMotion();
+
+        System.out.println("Swapping to SIREN mode");
+        alarm.setStrategy("SIREN");
+        motionSensor.detectMotion();
+
+        System.out.println("Testing the Remote & Command");
+        SmartRemote remote = new SmartRemote();
+        remote.setCommand(0, new TurnOnLightCommand(livingRoomLight));
+        remote.setCommand(1, new ArmAlarmCommand(alarm));
+
+        System.out.println("Pressing Button 0 (Lights On)");
+        remote.pressButton(0);
+        System.out.println("Pressing Button 1 (Arm Alarm)");
+        remote.pressButton(1);
+
+        System.out.println("Pressing Undo (Should disarm alarm)");
+        remote.pressUndo();
 
         System.out.println("Simulation finished");
     }
