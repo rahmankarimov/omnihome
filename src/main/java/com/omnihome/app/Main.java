@@ -80,6 +80,7 @@ public class Main {
         alarm.setStrategy("SIREN");
         motionSensor.detectMotion();
 
+
         System.out.println("Testing the Remote & Command");
         SmartRemote remote = new SmartRemote();
         remote.setCommand(0, new TurnOnLightCommand(livingRoomLight));
