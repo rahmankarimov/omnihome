@@ -24,6 +24,11 @@ public class BudgetFactory implements DeviceFactory {
         }
 
         @Override
+        public void turnOff() {
+            System.out.println("Budget Light: off Plastic");
+        }
+
+        @Override
         public String getStatus() {
             return "ON";
         }

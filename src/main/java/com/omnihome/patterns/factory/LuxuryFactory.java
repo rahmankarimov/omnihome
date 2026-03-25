@@ -19,7 +19,12 @@ public class LuxuryFactory implements DeviceFactory{
     public static class LuxuryLight implements SmartLight {
         @Override
         public void turnOn() {
-            System.out.println("LuxuryLight (Glass)");
+            System.out.println("LuxuryLight (Glass) is turning ON");
+        }
+
+        @Override
+        public void turnOff() {
+            System.out.println("LuxuryLight (Glass) is turning OFF");
         }
 
         @Override

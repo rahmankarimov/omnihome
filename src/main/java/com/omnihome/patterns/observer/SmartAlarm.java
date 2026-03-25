@@ -7,6 +7,17 @@ import java.util.Map;
 public class SmartAlarm implements Observer {
     private final Map<String, AlertStrategy> strategyRegistry = new HashMap<>();
     private AlertStrategy currentStrategy;
+    private boolean armed = false;
+
+    public void arm() {
+        this.armed = true;
+        System.out.println("SmartAlarm: System ARMED. SmartAlarm is now ARMED.");
+    }
+
+    public void disarm() {
+        this.armed = false;
+        System.out.println("SmartAlarm: System DISARMED. SmartAlarm is now DISARMED.");
+    }
 
     public void registerStrategy(String key, AlertStrategy strategy) {
         strategyRegistry.put(key, strategy);
@@ -18,11 +29,15 @@ public class SmartAlarm implements Observer {
 
     @Override
     public void update() {
-        System.out.println("SmartAlarm: Motion detected!");
-        if (currentStrategy != null) {
-            currentStrategy.executeAlert();
+        if (armed) {
+            System.out.println("SmartAlarm: Motion detected while ARMED!");
+            if (currentStrategy != null) {
+                currentStrategy.executeAlert();
+            } else {
+                System.out.println("Triggering default alarm...");
+            }
         } else {
-            System.out.println("Triggering default alarm...");
+            System.out.println("SmartAlarm: Motion detected, but system is DISARMED. Ignoring...");
         }
     }
 }

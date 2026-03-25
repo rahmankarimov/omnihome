@@ -68,6 +68,7 @@ public class Main {
         alarm.registerStrategy("SILENT", new SilentPushStrategy());
         alarm.registerStrategy("SIREN", new LoudSirenStrategy());
 
+        alarm.arm(); // Ensure alarm is armed
         alarm.setStrategy("SILENT");
 
         motionSensor.addObserver(lights);

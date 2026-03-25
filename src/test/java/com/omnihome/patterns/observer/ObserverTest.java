@@ -12,6 +12,7 @@ public class ObserverTest {
         MotionSensor sensor = new MotionSensor();
         SmartLights lights = new SmartLights();
         SmartAlarm alarm = new SmartAlarm();
+        alarm.arm(); // Ensure alarm is armed for the test
 
         sensor.addObserver(lights);
         sensor.addObserver(alarm);
@@ -22,9 +23,9 @@ public class ObserverTest {
         sensor.detectMotion();
 
         String output = outContent.toString();
-        assertTrue(output.contains("Motion detected!"));
+        assertTrue(output.contains("Motion detected"));
         assertTrue(output.contains("SmartLights: Motion detected! Turning lights on..."));
-        assertTrue(output.contains("SmartAlarm: Motion detected!"));
+        assertTrue(output.contains("SmartAlarm: Motion detected while ARMED!"));
         assertTrue(output.contains("Triggering default alarm..."));
 
         System.setOut(System.out);

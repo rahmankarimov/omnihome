@@ -13,6 +13,7 @@ public class StrategyTest {
     public void testAlarmStrategySwap() {
         MotionSensor sensor = new MotionSensor();
         SmartAlarm alarm = new SmartAlarm();
+        alarm.arm(); // Ensure alarm is armed
         
         alarm.registerStrategy("SILENT", new SilentPushStrategy());
         alarm.registerStrategy("SIREN", new LoudSirenStrategy());
